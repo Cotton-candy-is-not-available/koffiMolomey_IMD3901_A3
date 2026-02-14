@@ -12,6 +12,8 @@ public class PlayerController : NetworkBehaviour
 
     public Camera PcCamera;
 
+ 
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner)
@@ -21,17 +23,11 @@ public class PlayerController : NetworkBehaviour
 
         Cursor.lockState = CursorLockMode.Locked; //locks the cursor to the screen, so it moves with the camera
         Cursor.visible = false;
+
     }
 
-
-
-    //private void Start()
-    //{
-    //    Cursor.lockState = CursorLockMode.Locked; //locks the cursor to the screen, so it moves with the camera
-    //    Cursor.visible = false;
-    //}
-
-
+    
+  
     void Update()
     {
         //Networking

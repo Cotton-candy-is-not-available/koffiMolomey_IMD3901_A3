@@ -369,6 +369,8 @@ MonoBehaviour:
   pickupRange: 5
   pickupForce: 150
   throwForce: 500
+  Projectile: {fileID: 5299881083308222849, guid: d815c56a9258e31428c5a6159eb4676e, type: 3}
+  WeaponFiringOffset: {fileID: 7682659528374716096, guid: 299872c5ee49fcd47bdb6329a0a91a46, type: 3}
 --- !u!1 &4922275466300064606
 GameObject:
   m_ObjectHideFlags: 0

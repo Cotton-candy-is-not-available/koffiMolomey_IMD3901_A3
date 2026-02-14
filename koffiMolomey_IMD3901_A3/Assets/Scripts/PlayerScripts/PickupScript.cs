@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -65,9 +66,10 @@ public class PickupScript : MonoBehaviour
     }
 
     /*----------------FUNCTIONS---------------*/
-
-    public void pickupObject(GameObject obj)
+    [ServerRpc(RequireOwnership = false)]
+    public void pickupObject(GameObject obj, GameObject player)
     {
+        obj.transform.parent = player.transform;
         if (obj.GetComponent<Rigidbody>())
         {
             heldObjRB = obj.GetComponent<Rigidbody>();
@@ -79,7 +81,7 @@ public class PickupScript : MonoBehaviour
 
             heldObjRB.isKinematic = true;//prevents object from moving when hitting other objects in the scene
 
-            heldObjRB.transform.parent = holdArea;//parent object to camera space so it can follow the camera
+            //heldObjRB.transform.parent = holdArea;//parent object to camera space so it can follow the camera
 
             holdArea.transform.localScale = new Vector3(smallScale, smallScale, smallScale);//make heldObj and hold area smaller when held
 
@@ -94,8 +96,10 @@ public class PickupScript : MonoBehaviour
     }
 
 
-    public void dropObject()
+    public void dropObject(GameObject obj)
     {
+        obj.transform.parent = null;
+
         heldObjRB.useGravity = true;//let the item fall
         heldObjRB.linearDamping = 1;
         heldObjRB.constraints = RigidbodyConstraints.None;//prevents object rotation
@@ -104,7 +108,7 @@ public class PickupScript : MonoBehaviour
 
         holdArea.transform.localScale = new Vector3(defaultScale, defaultScale, defaultScale); ;//bring hold area and heldObj back to original size for the next object
 
-        heldObjRB.transform.parent = null;//unfreeze transformations and unparent
+        //heldObjRB.transform.parent = null;//unfreeze transformations and unparent
 
 
         heldObj = null;//hand is now empty

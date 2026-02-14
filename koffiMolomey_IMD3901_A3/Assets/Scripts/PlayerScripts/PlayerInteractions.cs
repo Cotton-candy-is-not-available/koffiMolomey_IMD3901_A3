@@ -27,13 +27,13 @@ public class PlayerInteractions : MonoBehaviour
                     if (pickup.heldObj == null)//if hand is empty
                     {
                         //pickup object
-                        pickup.pickupObject(hit.transform.gameObject);//call pickup fucntion
+                        pickup.pickupObject(hit.transform.gameObject, gameObject);//call pickup fucntion
 
                     }
                     else//if hand is not empty
                     {
                         //Drop object
-                        pickup.dropObject();//call drop function
+                        pickup.dropObject(hit.transform.gameObject);//call drop function
 
                     }
 
