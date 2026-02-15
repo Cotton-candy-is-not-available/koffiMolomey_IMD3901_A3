@@ -66,10 +66,10 @@ public class PickupScript : MonoBehaviour
     }
 
     /*----------------FUNCTIONS---------------*/
-    [ServerRpc(RequireOwnership = false)]
+    //[ServerRpc(RequireOwnership = false)]
     public void pickupObject(GameObject obj, GameObject player)
     {
-        obj.transform.parent = player.transform;
+        obj.transform.parent = holdArea.transform;
         if (obj.GetComponent<Rigidbody>())
         {
             heldObjRB = obj.GetComponent<Rigidbody>();
@@ -98,7 +98,6 @@ public class PickupScript : MonoBehaviour
 
     public void dropObject(GameObject obj)
     {
-        obj.transform.parent = null;
 
         heldObjRB.useGravity = true;//let the item fall
         heldObjRB.linearDamping = 1;
@@ -107,6 +106,7 @@ public class PickupScript : MonoBehaviour
         heldObjRB.isKinematic = false;
 
         holdArea.transform.localScale = new Vector3(defaultScale, defaultScale, defaultScale); ;//bring hold area and heldObj back to original size for the next object
+        obj.transform.parent = null;
 
         //heldObjRB.transform.parent = null;//unfreeze transformations and unparent
 

@@ -817,6 +817,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 851531357817345984, guid: d815c56a9258e31428c5a6159eb4676e, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1893357641
+      objectReference: {fileID: 0}
+    - target: {fileID: 851531357817345984, guid: d815c56a9258e31428c5a6159eb4676e, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1097056816
+      objectReference: {fileID: 0}
     - target: {fileID: 1516114906443876728, guid: d815c56a9258e31428c5a6159eb4676e, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -840,6 +848,18 @@ PrefabInstance:
     - target: {fileID: 6967909505432138962, guid: d815c56a9258e31428c5a6159eb4676e, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash
       value: 1097056816
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sources.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_RotationOffsets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TranslationOffsets.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8963729957737184777, guid: d815c56a9258e31428c5a6159eb4676e, type: 3}
       propertyPath: m_LocalPosition.x
