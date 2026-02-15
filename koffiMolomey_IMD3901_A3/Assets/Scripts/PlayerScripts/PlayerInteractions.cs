@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,12 @@ public class PlayerInteractions : MonoBehaviour
 
     public Crosshair crosshair;
     public PickupScript pickup;
+
+
+    public GameObject box;
+    public GameObject pos;
+
+
     // Update is called once per frame
     void Update()
     {
@@ -49,6 +56,13 @@ public class PlayerInteractions : MonoBehaviour
                     }
                 }
 
+                if(Keyboard.current.iKey.wasPressedThisFrame)
+                {
+                    var instance = Instantiate(box, pos.transform);
+                    var instanceNetworkObject = instance.GetComponent<NetworkObject>();
+                    instanceNetworkObject.Spawn();
+                }
+
 
 
                 return;
@@ -59,4 +73,22 @@ public class PlayerInteractions : MonoBehaviour
 
         crosshair.setInteract(false);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }

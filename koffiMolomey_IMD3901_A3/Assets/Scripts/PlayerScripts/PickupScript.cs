@@ -67,9 +67,11 @@ public class PickupScript : MonoBehaviour
 
     /*----------------FUNCTIONS---------------*/
     //[ServerRpc(RequireOwnership = false)]
+
+
     public void pickupObject(GameObject obj, GameObject player)
     {
-        obj.transform.parent = holdArea.transform;
+        obj.transform.parent = player.transform;
         if (obj.GetComponent<Rigidbody>())
         {
             heldObjRB = obj.GetComponent<Rigidbody>();
