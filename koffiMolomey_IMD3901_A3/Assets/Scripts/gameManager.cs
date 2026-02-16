@@ -9,13 +9,15 @@ public class gameManager : NetworkBehaviour
 
     // For example purposes, an offset from the weapon
     // to spawn the projectile.
+
     public GameObject WeaponFiringOffset;
 
-    //public override void OnNetworkSpawn()
-    //{
-    //    FireWeapon();
-    //    Debug.Log("starting");
-    //}
+
+    public override void OnNetworkDespawn()
+    {
+        print("start"); 
+    }
+  
 
 
     public void FireWeapon()
@@ -23,7 +25,6 @@ public class gameManager : NetworkBehaviour
         var instance = Instantiate(Projectile);
         var instanceNetworkObject = instance.GetComponent<NetworkObject>();
         instance.transform.position = WeaponFiringOffset.transform.position;
-        instance.transform.forward = transform.forward;
-        instanceNetworkObject.Spawn();
+        instanceNetworkObject.Spawn(true);
     }
 }

@@ -15,6 +15,7 @@ public class NetworkConnect : MonoBehaviour
     {
         NetworkManager.Singleton.StartClient();//same as cliquing button in inspector
         hideCanvas(canvas);//hide the canvas after clicking
+        
 
     }
 

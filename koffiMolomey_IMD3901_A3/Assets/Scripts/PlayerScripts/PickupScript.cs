@@ -71,9 +71,11 @@ public class PickupScript : MonoBehaviour
 
     public void pickupObject(GameObject obj, GameObject player)
     {
-        obj.transform.parent = player.transform;
+        obj.transform.localPosition = new Vector3(holdArea.transform.position.x, holdArea.transform.position.y, obj.transform.localPosition.z);
+        obj.transform.rotation = Quaternion.identity;//might need to chnage or remove
         if (obj.GetComponent<Rigidbody>())
         {
+            Debug.Log("picking up");
             heldObjRB = obj.GetComponent<Rigidbody>();
             heldObjRB.useGravity = false;//prevents object from falling
             heldObjRB.linearDamping = 10;
@@ -100,6 +102,7 @@ public class PickupScript : MonoBehaviour
 
     public void dropObject(GameObject obj)
     {
+        Debug.Log("Drop");
 
         heldObjRB.useGravity = true;//let the item fall
         heldObjRB.linearDamping = 1;
@@ -108,7 +111,7 @@ public class PickupScript : MonoBehaviour
         heldObjRB.isKinematic = false;
 
         holdArea.transform.localScale = new Vector3(defaultScale, defaultScale, defaultScale); ;//bring hold area and heldObj back to original size for the next object
-        obj.transform.parent = null;
+        //obj.transform.parent = null;
 
         //heldObjRB.transform.parent = null;//unfreeze transformations and unparent
 
@@ -128,7 +131,7 @@ public class PickupScript : MonoBehaviour
 
         holdArea.transform.localScale = new Vector3(defaultScale, defaultScale, defaultScale); ;//bring hold area and heldObj back to original size for the next object
 
-        heldObjRB.transform.parent = null;//unfreeze transformations and unparent
+        //heldObjRB.transform.parent = null;//unfreeze transformations and unparent
 
         heldObjRB.AddForce(transform.forward * throwForce);//throws object when dropped and unparented
 
@@ -139,10 +142,12 @@ public class PickupScript : MonoBehaviour
 
     public void moveObject()
     {
-        if (Vector3.Distance(heldObj.transform.position, holdArea.position) > 0.1f)
-        {
-            Vector3 moveDirection = (holdArea.position - heldObj.transform.position);
-            heldObjRB.AddForce(moveDirection * pickupForce);
-        }
+            Debug.Log("Moving");
+
+            //Vector3 moveDirection = (holdArea.position - heldObj.transform.position);
+            //heldObjRB.AddForce(moveDirection * pickupForce);
+
+            heldObj.transform.position = holdArea.position;
+        
     }
 }
