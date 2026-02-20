@@ -20,9 +20,27 @@ public class PlayerController : NetworkBehaviour
         {
             PcCamera.enabled = false;
         }
+        if (IsOwner && IsClient)
+        {
+            Debug.Log("Player 1");
+
+        }
+        else 
+        {
+            Debug.Log("Player 2");
+        }
+        //Print player ids
+        Debug.Log("Client  id: "+ NetworkManager.Singleton.LocalClientId);
+        if(NetworkManager.Singleton.LocalClientId == 0)
+        {
+            //chnage spanw position
+        }
+
 
         Cursor.lockState = CursorLockMode.Locked; //locks the cursor to the screen, so it moves with the camera
         Cursor.visible = false;
+
+        //NetworkManager.GetNetworkPrefabOverride(VRTextureUsage/pcPrefabs);to chnage prefabs
 
     }
 

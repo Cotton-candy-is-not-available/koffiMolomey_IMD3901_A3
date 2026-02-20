@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInteractions : MonoBehaviour
+public class PlayerInteractions : NetworkBehaviour
 {
 
     public float interactRange = 5f;
@@ -19,6 +19,7 @@ public class PlayerInteractions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;
 
@@ -34,7 +35,7 @@ public class PlayerInteractions : MonoBehaviour
                     if (pickup.heldObj == null)//if hand is empty
                     {
                         //pickup object
-                        pickup.pickupObject(hit.transform.gameObject, gameObject);//call pickup fucntion
+                        pickup.pickupObject(hit.transform.gameObject);//call pickup fucntion
 
                     }
                     else//if hand is not empty
@@ -50,10 +51,10 @@ public class PlayerInteractions : MonoBehaviour
                     //moveObject
                     pickup.moveObject();//call move function
 
-                    if (Mouse.current.leftButton.wasPressedThisFrame)
-                    {
-                        pickup.throwObject();//call move function
-                    }
+                    //if (Mouse.current.leftButton.wasPressedThisFrame)
+                    //{
+                    //    pickup.throwObject();//call move function
+                    //}
                 }
 
 

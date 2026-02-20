@@ -225,7 +225,6 @@ GameObject:
   - component: {fileID: 756905170793235928}
   - component: {fileID: 8537881360461109156}
   - component: {fileID: 1926535059000450215}
-  - component: {fileID: 1876681358850923273}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -352,23 +351,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &1876681358850923273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1890027671696969336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 912fd566f98522c4097c9ea991cbf85f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holdArea: {fileID: 704453939635201883}
-  heldObj: {fileID: 0}
-  pickupRange: 5
-  pickupForce: 150
-  throwForce: 500
 --- !u!1 &4922275466300064606
 GameObject:
   m_ObjectHideFlags: 0
@@ -505,6 +487,7 @@ GameObject:
   - component: {fileID: 3054658177486716875}
   - component: {fileID: 2442731400998419577}
   - component: {fileID: 3973748124654658717}
+  - component: {fileID: 3242632044742748903}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -655,9 +638,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3487c1518727d349862907e98a7001c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   interactRange: 5
   playerCamera: {fileID: 756905170793235928}
   crosshair: {fileID: 3234710751567862162}
-  pickup: {fileID: 1876681358850923273}
+  pickup: {fileID: 3242632044742748903}
   box: {fileID: 5299881083308222849, guid: d815c56a9258e31428c5a6159eb4676e, type: 3}
   pos: {fileID: 7682659528374716096, guid: 299872c5ee49fcd47bdb6329a0a91a46, type: 3}
+--- !u!114 &3242632044742748903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8184599696058079865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 912fd566f98522c4097c9ea991cbf85f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdArea: {fileID: 704453939635201883}
+  heldObj: {fileID: 0}
+  pickupRange: 5
+  pickupForce: 150
+  throwForce: 500

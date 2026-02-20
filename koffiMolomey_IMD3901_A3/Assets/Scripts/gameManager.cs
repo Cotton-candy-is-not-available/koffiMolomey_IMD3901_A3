@@ -15,7 +15,7 @@ public class gameManager : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
-        print("start"); 
+        print("despawn"); 
     }
   
 
