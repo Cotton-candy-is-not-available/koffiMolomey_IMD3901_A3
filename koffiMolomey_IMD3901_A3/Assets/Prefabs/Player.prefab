@@ -626,6 +626,8 @@ MonoBehaviour:
   charController: {fileID: 6415523124424605952}
   camTransform: {fileID: 7894908296533209151}
   PcCamera: {fileID: 756905170793235928}
+  p1StartPos: {fileID: 131633408309690548, guid: 299872c5ee49fcd47bdb6329a0a91a46, type: 3}
+  p2StartPos: {fileID: 131633408309690548, guid: 08a09abea67acfd4fbbfaf72ee449233, type: 3}
 --- !u!114 &3973748124654658717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,6 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 912fd566f98522c4097c9ea991cbf85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   holdArea: {fileID: 704453939635201883}
   heldObj: {fileID: 0}
   pickupRange: 5

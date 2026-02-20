@@ -12,7 +12,10 @@ public class PlayerController : NetworkBehaviour
 
     public Camera PcCamera;
 
- 
+    [SerializeField] Transform p1StartPos;
+    [SerializeField] Transform p2StartPos;
+
+
 
     public override void OnNetworkSpawn()
     {
@@ -20,32 +23,30 @@ public class PlayerController : NetworkBehaviour
         {
             PcCamera.enabled = false;
         }
-        if (IsOwner && IsClient)
-        {
-            Debug.Log("Player 1");
 
-        }
-        else 
-        {
-            Debug.Log("Player 2");
-        }
         //Print player ids
         Debug.Log("Client  id: "+ NetworkManager.Singleton.LocalClientId);
-        if(NetworkManager.Singleton.LocalClientId == 0)
+        if (NetworkManager.Singleton.LocalClientId == 0)
         {
-            //chnage spanw position
+            Debug.Log("Player 1");
+            gameObject.transform.transform.position = p1StartPos.position;
+        }
+        else if (NetworkManager.Singleton.LocalClientId == 1)
+        {
+            Debug.Log("Player 2");
+            gameObject.transform.transform.position = p2StartPos.position;
+
         }
 
-
         Cursor.lockState = CursorLockMode.Locked; //locks the cursor to the screen, so it moves with the camera
-        Cursor.visible = false;
+        Cursor.visible = false;//hides cursor 
 
         //NetworkManager.GetNetworkPrefabOverride(VRTextureUsage/pcPrefabs);to chnage prefabs
 
     }
 
-    
-  
+
+
     void Update()
     {
         //Networking
