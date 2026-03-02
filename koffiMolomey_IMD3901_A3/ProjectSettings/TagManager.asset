@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Interactable
+  - GameManager
+  - P1Camera
+  - P2Camera
   layers:
   - Default
   - TransparentFX
@@ -12,10 +15,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - pickupLayer
+  - fabric
+  - trim
+  - thread
   - 
   - 
   - 

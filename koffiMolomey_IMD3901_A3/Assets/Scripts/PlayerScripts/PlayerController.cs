@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] Transform p1StartPos;
     [SerializeField] Transform p2StartPos;
 
-
+    gameManager numOfPlayers;
 
     public override void OnNetworkSpawn()
     {
@@ -26,22 +26,36 @@ public class PlayerController : NetworkBehaviour
 
         //Print player ids
         Debug.Log("Client  id: "+ NetworkManager.Singleton.LocalClientId);
+
+        //Spawn players at their start position 
         if (NetworkManager.Singleton.LocalClientId == 0)
         {
             Debug.Log("Player 1");
-            gameObject.transform.transform.position = p1StartPos.position;
+            gameObject.transform.transform.position = p1StartPos.position;//player 1 start position
+            //Add to number of total players
+            numOfPlayers =  GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameManager>();//access game manager component
+            numOfPlayers.playerCounter +=1;//increase counter by 1
+            Debug.Log("numOfPlayers: "+ numOfPlayers.playerCounter);
+
+            PcCamera.tag = "P1Camera";//set player camera tag
+
         }
         else if (NetworkManager.Singleton.LocalClientId == 1)
         {
             Debug.Log("Player 2");
-            gameObject.transform.transform.position = p2StartPos.position;
+            //Add to number of total players
+            numOfPlayers =  GameObject.FindGameObjectWithTag("GameManager").GetComponent<gameManager>();//access game manager component
+            numOfPlayers.playerCounter +=1;//increase counter by 1
+            Debug.Log("numOfPlayers: "+ numOfPlayers.playerCounter);
+
+            PcCamera.tag = "P2Camera";//set player camera tag
 
         }
 
         Cursor.lockState = CursorLockMode.Locked; //locks the cursor to the screen, so it moves with the camera
         Cursor.visible = false;//hides cursor 
 
-        //NetworkManager.GetNetworkPrefabOverride(VRTextureUsage/pcPrefabs);to chnage prefabs
+        //NetworkManager.GetNetworkPrefabOverride(VRTextureUsage/pcPrefabs);//to chnage prefabs
 
     }
 
