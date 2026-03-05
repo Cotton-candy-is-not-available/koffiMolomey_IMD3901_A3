@@ -51,10 +51,7 @@ public class PlayerInteractions : NetworkBehaviour
                     //moveObject
                     pickup.moveObject();//call move function
 
-                    //if (Mouse.current.leftButton.wasPressedThisFrame)
-                    //{
-                    //    pickup.throwObject();//call move function
-                    //}
+                   
                 }
 
 

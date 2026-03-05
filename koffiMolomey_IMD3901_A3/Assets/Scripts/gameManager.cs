@@ -35,6 +35,7 @@ public class gameManager : MonoBehaviour
     bool P1Win = false;
     bool P2win = false;
 
+    public buttonFunctions playerReady;
     public int playerCounter = 0;
 
 
@@ -58,23 +59,28 @@ public class gameManager : MonoBehaviour
         chosenThread = fabricGroups[0].GetComponent<createDressClass>().threadObject.name;
         Debug.Log(" chosenThread:" + chosenThread);
 
+        //set time to 0 on 
+        //countDownObject.remainingTime = 0;
+
     }
 
 
     private void Update()
     {
-        if (timeIsOver)//when the timer reaches zero and timeIsOver is set to true 
+        //if the time is over and bioth players pressed the player ready button
+        if (timeIsOver && playerReady.playerReadyCount == 2)//when the timer reaches zero and timeIsOver is set to true 
         {
-
+            Debug.Log("check winner");
             //checkItemsInBaskets(P1BasketCollison.fabricBool, P1BasketCollison.trimBool, P1BasketCollison.fabricBool);
             checkItemsInBaskets();//check which items are in the basket
 
             checkWinner();//check the winner
 
-        }
-        else if (!timeIsOver && playerCounter == 2)//let the countdown timer start as long as there are atleats 2 players in the game
+        }//check in GraphicRaycasterUI if playerReadyCount ==2, playerCounter == 2
+        else if (!timeIsOver && playerCounter == 1 && playerReady.playerReadyCount ==2)//let the countdown timer start as long as there are atleats 2 players in the game
         {
-            countDownObject.startCountDown(timeIsOver);//start the count down and keep it running as long as timeIsOver is false
+            Debug.Log("counter going down");
+            countDownObject.startCountDown();//start the count down and keep it running as long as timeIsOver is false
         }
 
 
