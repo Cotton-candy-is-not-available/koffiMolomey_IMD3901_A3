@@ -46,7 +46,12 @@ public class PlayerInteractions : NetworkBehaviour
                     }
 
                 }
-                if (pickup.heldObj != null)//if there is an object picked up
+
+                if (Keyboard.current.eKey.wasPressedThisFrame)//press e to grab and drop object
+                {
+
+
+                    if (pickup.heldObj != null)//if there is an object picked up
                 {
                     //moveObject
                     pickup.moveObject();//call move function
