@@ -26,6 +26,7 @@ public class gameManager : MonoBehaviour
     [Header("----------- Winner Text ------------")]
     public GameObject winnerText;
 
+    buttonFunctions buttonFunctions;
 
 
     public bool timeIsOver = false;
@@ -77,17 +78,20 @@ public class gameManager : MonoBehaviour
 
     private void Update()
     {
-        //if the time is over and bioth players pressed the player ready button
-        if (timeIsOver && playerReady.playerReadyCount == 2)//when the timer reaches zero and timeIsOver is set to true 
-        {
+        //if the time is over and both players pressed the player ready button
+        //if (timeIsOver && playerReady.playerReadyCount == 2)//when the timer reaches zero and timeIsOver is set to true 
+
+        if (timeIsOver )//when the timer reaches zero and timeIsOver is set to true 
+            {
             Debug.Log("check winner");
             //checkItemsInBaskets(P1BasketCollison.fabricBool, P1BasketCollison.trimBool, P1BasketCollison.fabricBool);
             checkItemsInBaskets();//check which items are in the basket
 
             checkWinner();//check the winner
 
-        }//check in GraphicRaycasterUI if playerReadyCount ==2, playerCounter == 2
-        else if (!timeIsOver && playerCounter == 1 && playerReady.playerReadyCount ==2)//let the countdown timer start as long as there are atleats 2 players in the game
+        }
+        //else if (!timeIsOver && playerCounter == 1&& buttonFunctions.playerReadyCount == 2)//let the countdown timer start as long as there are atleats 2 players in the game
+        else if (!timeIsOver && playerCounter == 2 )//let the countdown timer start as long as there are atleats 2 players in the game and both are ready
         {
             Debug.Log("counter going down");
             countDownObject.startCountDown();//start the count down and keep it running as long as timeIsOver is false

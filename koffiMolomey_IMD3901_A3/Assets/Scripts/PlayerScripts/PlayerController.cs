@@ -17,6 +17,8 @@ public class PlayerController : NetworkBehaviour
 
     gameManager numOfPlayers;
 
+    bool isLocked = true;
+
     public override void OnNetworkSpawn()
     {
         if (!IsOwner)
@@ -91,5 +93,27 @@ public class PlayerController : NetworkBehaviour
         //euler inputs a number in degrees
         camTransform.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX); //apply it to the camera
-    }
+
+        //unlock and lock cursor when i is pressed
+        if (Keyboard.current.iKey.wasPressedThisFrame)//press e to grab and drop object
+        {
+            if (isLocked)
+            {
+                isLocked = !isLocked;
+                Cursor.lockState = CursorLockMode.None; //locks the cursor to the screen, so it moves with the camera
+                Cursor.visible = true;//hides cursor 
+            }
+            else
+            {
+                isLocked = !isLocked;
+                Cursor.lockState = CursorLockMode.Locked; //locks the cursor to the screen, so it moves with the camera
+                Cursor.visible = false;//hides cursor 
+            }
+        }
+
+
+
+
+
+        }
 }

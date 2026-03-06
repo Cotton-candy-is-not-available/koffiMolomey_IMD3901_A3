@@ -38,10 +38,10 @@ public class PlayerInteractions : NetworkBehaviour
                         pickup.pickupObject(hit.transform.gameObject);//call pickup fucntion
 
                     }
-                    else//if hand is not empty
+                    else if (pickup.heldObj != null)//if hand is not empty
                     {
                         //Drop object
-                        pickup.dropObject(hit.transform.gameObject);//call drop function
+                        pickup.dropObject();//call drop function
 
                     }
 
