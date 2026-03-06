@@ -9,11 +9,15 @@ public class gameManager : MonoBehaviour
     [SerializeField] GameObject P1Basket;
     [SerializeField] GameObject P2Basket;
 
+    [SerializeField] GameObject sharedBasket;
+
     basketCollision P1BasketCollison;
     basketCollision P2BasketCollison;
 
-    [Header("----------- Mannequin ------------")]
-    [SerializeField] GameObject mannequin;
+    basketCollision sharedBasketCollison;
+
+    [Header("----------- dressForm ------------")]
+    [SerializeField] GameObject dressForm;
 
 
     [SerializeField] countDown countDownObject;
@@ -33,7 +37,9 @@ public class gameManager : MonoBehaviour
 
     //bools to check which playyer won
     bool P1Win = false;
-    bool P2win = false;
+    bool P2Win = false;
+
+    bool coopWin = false;
 
     public buttonFunctions playerReady;
     public int playerCounter = 0;
@@ -48,7 +54,7 @@ public class gameManager : MonoBehaviour
 
 
         //Assign material from chosen fabric group to mannequin
-        mannequin.GetComponent<MeshRenderer>().material = fabricGroups[0].GetComponent<createDressClass>().fabricMat;
+        dressForm.GetComponent<MeshRenderer>().material = fabricGroups[0].GetComponent<createDressClass>().fabricMat;
 
         //Chose material to add to refernece manequin
         chosenFabric = fabricGroups[0].GetComponent<createDressClass>().fabricMat.name;
@@ -99,9 +105,7 @@ public class gameManager : MonoBehaviour
             {
                 Debug.Log("Player 1 wins!!!");
                 P1Win = true;
-                winnerText.GetComponent<TMPro.TextMeshProUGUI>().text = "Player 1 wins";//change text to say player 1 won
-                winnerText.SetActive(true);//turn on to show who won
-
+               
             }
         }
         else
@@ -115,41 +119,88 @@ public class gameManager : MonoBehaviour
         {
             Debug.Log("Got all three items");
             //check if all the items in the basket match with the ones chosen at the start of the game
-            if (P1BasketCollison.fabricName == chosenFabric+"Fabric" && P1BasketCollison.trimName == chosenTrim)//add thread check too
+            if (P2BasketCollison.fabricName == chosenFabric+"Fabric" && P2BasketCollison.trimName == chosenTrim)//add thread check too
             {
-                Debug.Log("Player 1 wins!!!");
-                P1Win = true;
-                winnerText.GetComponent<TMPro.TextMeshProUGUI>().text = "Player 1 wins";//change text to say player 1 won
-                winnerText.SetActive(true);//turn on to show who won
-
+                Debug.Log("Player 2 wins!!!");
+                P2Win = true;
+                
             }
         }
         else
         {
             Debug.Log("P2 Need more items");
         }
+
+
+        //check the shared basket
+        if (sharedBasketCollison.fabricBool && sharedBasketCollison.trimBool && sharedBasketCollison.threadBool)//the players have all the items in their basket
+        {
+            Debug.Log("Co-Op Got all three items");
+            //check if all the items in the basket match with the ones chosen at the start of the game
+            if (P1BasketCollison.fabricName == chosenFabric+"Fabric" && P1BasketCollison.trimName == chosenTrim)//add thread check too
+            {
+                Debug.Log("You both won!!!");
+                coopWin = true;
+               
+
+            }
+        }
+        else
+        {
+            Debug.Log("Co-Op Need more items");
+        }
+
+
+
+
     }
 
 
 
     private void checkWinner()
     {
-        if (P1Win && P2win)//if both player 1 and 2 win
+        if (P1Win)//if both player 1 and 2 win
         {
+            winnerText.GetComponent<TMPro.TextMeshProUGUI>().text = "Player 1 wins";//change text to say player 1 won
+            winnerText.SetActive(true);//turn on to show who won
 
+        }
+
+        if (P2Win)//if both player 1 and 2 win
+        {
+            winnerText.GetComponent<TMPro.TextMeshProUGUI>().text = "Player 2 wins";//change text to say player 2 won
+            winnerText.SetActive(true);//turn on to show who won
+        }
+
+        if (P1Win && P2Win)//if both player 1 and 2 win
+        {
             Debug.Log("Its a tie!!");
             winnerText.GetComponent<TextMeshProUGUI>().text = "It's a tie!";//dispaly its a tie text
             winnerText.SetActive(true);//turn on to show who won
 
 
         }
-        else if (!P1Win && !P2win)//if neither player wins
+        else if (!P1Win && !P2Win)//if neither player wins
         {
             Debug.Log("No winner");
             winnerText.GetComponent<TextMeshProUGUI>().text = "No one won :(";
             winnerText.SetActive(true);//turn on to show who won
 
         }
+
+        //For co-op play
+        if (coopWin)
+        {
+            winnerText.GetComponent<TMPro.TextMeshProUGUI>().text = "You guys won!";//change text to say player 1 won
+            winnerText.SetActive(true);//turn on to show who won
+        }
+        else if (!coopWin)
+        {
+            winnerText.GetComponent<TMPro.TextMeshProUGUI>().text = "You guys lost :(";//change text to say player 1 won
+            winnerText.SetActive(true);//turn on to show who won
+        }
+
+
     }
 
 
