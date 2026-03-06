@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class gameManager : MonoBehaviour
 {
@@ -52,21 +53,24 @@ public class gameManager : MonoBehaviour
         P1BasketCollison = P1Basket.GetComponent<basketCollision>();
         P2BasketCollison = P2Basket.GetComponent<basketCollision>();
 
+        //for (int i = 0; i < fabricGroups.Length; i++)
+        //{
 
-        //Assign material from chosen fabric group to mannequin
-        dressForm.GetComponent<MeshRenderer>().material = fabricGroups[0].GetComponent<createDressClass>().fabricMat;
+        //}
 
-        //Chose material to add to refernece manequin
-        chosenFabric = fabricGroups[0].GetComponent<createDressClass>().fabricMat.name;
+        int randomFabricItem = Random.Range(0, fabricGroups.Length);//chose any frabric group from the fabric group array
+
+        //Chose material to add to refernece dressForm
+        chosenFabric = fabricGroups[randomFabricItem].GetComponent<createDressClass>().fabricMat.name;
         Debug.Log(" chosenFabric:" + chosenFabric);
-        chosenTrim = fabricGroups[0].GetComponent<createDressClass>().trimObject.name;
+        chosenTrim = fabricGroups[randomFabricItem].GetComponent<createDressClass>().trimObject.name;
         Debug.Log(" chosenTrim:" + chosenTrim);
 
-        chosenThread = fabricGroups[0].GetComponent<createDressClass>().threadObject.name;
+        chosenThread = fabricGroups[randomFabricItem].GetComponent<createDressClass>().threadObject.name;
         Debug.Log(" chosenThread:" + chosenThread);
 
-        //set time to 0 on 
-        //countDownObject.remainingTime = 0;
+        //Assign material from chosen fabric group to mannequin
+        dressForm.GetComponent<MeshRenderer>().material = fabricGroups[randomFabricItem].GetComponent<createDressClass>().fabricMat;
 
     }
 

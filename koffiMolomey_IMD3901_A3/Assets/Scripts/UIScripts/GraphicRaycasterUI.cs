@@ -111,20 +111,21 @@ public class GraphicRaycasterUI : MonoBehaviour
                
             }
         }
-        if (GameManager.playerCounter >= 1 &&  canvas.worldCamera == null)//if there is one player and the cameras are null, look for even cameras on the players
+        if (GameManager.playerCounter > 1 && canvas.worldCamera == null)//if there is one player and the cameras are null, look for even cameras on the players
         {
+            
+
             canvas.worldCamera = GameObject.FindGameObjectWithTag("P1Camera").GetComponent<Camera>();//assign event camera of P1 start canvas as player 1's camera
-            //m_Canvas.worldCamera = GameObject.FindGameObjectWithTag("P2Camera").GetComponent<Camera>();//assign event camera of P2 start canvas as player 2's camera
+            //canvas.worldCamera = GameObject.FindGameObjectWithTag("P2Camera").GetComponent<Camera>();//assign event camera of P2 start canvas as player 2's camera
             Debug.Log("Got P1 camera");
             //Debug.Log("Got P2 camera");
-
         }
         //add crosshair script
         //crosshair.setInteract(true);//calling to create rollover effect
     }
 
 
-    
+
 
 
 }

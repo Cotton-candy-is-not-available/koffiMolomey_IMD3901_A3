@@ -1,7 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class buttonFunctions : MonoBehaviour
 {
+    public GameObject gameModeCanvas;
 
     public GameObject P1Items;
 
@@ -20,7 +22,6 @@ public class buttonFunctions : MonoBehaviour
 
     public GameObject chooseModePanel;
 
-    public GameObject gameModeCanvas;
     [SerializeField] countDown countDownObject;
 
 
@@ -53,15 +54,27 @@ public class buttonFunctions : MonoBehaviour
 
     public void PvPMode()
     {
+       
+
+        
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void hidecoopItemsServerRPC()
+    {
+        Debug.Log("hid coop objects");
         //turn on the individual player items
         P1Items.SetActive(true);
         P2Items.SetActive(true);
+
 
         //hide shared basket
         sharedBasket.SetActive(false);
         chooseModePanel.SetActive(false);//hide entire panel and buttons
         readyPlayerPanel.SetActive(true);//show player ready buttons
     }
+
+
 
     public void coopMode()
     {
