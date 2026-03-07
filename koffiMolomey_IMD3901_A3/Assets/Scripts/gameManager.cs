@@ -53,6 +53,7 @@ public class gameManager : MonoBehaviour
         //Get basket collsion script to acces variables of specific player
         P1BasketCollison = P1Basket.GetComponent<basketCollision>();
         P2BasketCollison = P2Basket.GetComponent<basketCollision>();
+        sharedBasketCollison = sharedBasket.GetComponent<basketCollision>();
 
         //for (int i = 0; i < fabricGroups.Length; i++)
         //{
@@ -104,8 +105,10 @@ public class gameManager : MonoBehaviour
     //private void checkItemsInBaskets(bool fabric, bool trim, bool thread)
     private void checkItemsInBaskets()
     {
-        //cjheck player 1's basket
-        if (P1BasketCollison.fabricBool && P1BasketCollison.trimBool && P1BasketCollison.threadBool)//the player has all the items in their basket
+        if (P1BasketCollison != null && P2BasketCollison != null)
+        {
+            //check player 1's basket
+            if (P1BasketCollison.fabricBool && P1BasketCollison.trimBool && P1BasketCollison.threadBool)//the player has all the items in their basket
         {
             Debug.Log("Got all three items");
             //check if the fabrics in thew basket match with the ones chosen at the start of the game
@@ -121,43 +124,46 @@ public class gameManager : MonoBehaviour
             Debug.Log("P1 Need more items");
         }
 
-
-        //check player 2's basket
-        if (P2BasketCollison.fabricBool && P2BasketCollison.trimBool && P2BasketCollison.threadBool)//the player has all the items in their basket
-        {
-            Debug.Log("Got all three items");
-            //check if all the items in the basket match with the ones chosen at the start of the game
-            if (P2BasketCollison.fabricName == chosenFabric+"Fabric" && P2BasketCollison.trimName == chosenTrim)//add thread check too
+        
+            //check player 2's basket
+            if (P2BasketCollison.fabricBool && P2BasketCollison.trimBool && P2BasketCollison.threadBool)//the player has all the items in their basket
             {
-                Debug.Log("Player 2 wins!!!");
-                P2Win = true;
-                
+                Debug.Log("Got all three items");
+                //check if all the items in the basket match with the ones chosen at the start of the game
+                if (P2BasketCollison.fabricName == chosenFabric+"Fabric" && P2BasketCollison.trimName == chosenTrim)//add thread check too
+                {
+                    Debug.Log("Player 2 wins!!!");
+                    P2Win = true;
+
+                }
+            }
+            else
+            {
+                Debug.Log("P2 Need more items");
             }
         }
-        else
-        {
-            Debug.Log("P2 Need more items");
-        }
 
 
-        //check the shared basket
-        if (sharedBasketCollison.fabricBool && sharedBasketCollison.trimBool && sharedBasketCollison.threadBool)//the players have all the items in their basket
+        if (sharedBasket != null)
         {
-            Debug.Log("Co-Op Got all three items");
-            //check if all the items in the basket match with the ones chosen at the start of the game
-            if (P1BasketCollison.fabricName == chosenFabric+"Fabric" && P1BasketCollison.trimName == chosenTrim)//add thread check too
+            //check the shared basket
+            if (sharedBasketCollison.fabricBool && sharedBasketCollison.trimBool && sharedBasketCollison.threadBool)//the players have all the items in their basket
             {
-                Debug.Log("You both won!!!");
-                coopWin = true;
-               
+                Debug.Log("Co-Op Got all three items");
+                //check if all the items in the basket match with the ones chosen at the start of the game
+                if (P1BasketCollison.fabricName == chosenFabric+"Fabric" && P1BasketCollison.trimName == chosenTrim)//add thread check too
+                {
+                    Debug.Log("You both won!!!");
+                    coopWin = true;
 
+
+                }
+            }
+            else
+            {
+                Debug.Log("Co-Op Need more items");
             }
         }
-        else
-        {
-            Debug.Log("Co-Op Need more items");
-        }
-
 
 
 

@@ -18,8 +18,8 @@ public class PickupScript : NetworkBehaviour
 
 
     //picked up and normal scales
-    float defaultScale = 1f;
-    float smallScale = 0.5f;
+    //float defaultScale = 1f;
+    //float smallScale = 0.5f;
 
 
     //----- For throwing trgectory: Beer Pong---
@@ -29,51 +29,130 @@ public class PickupScript : NetworkBehaviour
 
     //------------------ Picking up -------------------
 
-   public  void pickupObject(GameObject pickObj)
+    public void pickupObject(GameObject obj)
     {
         if (!IsOwner) return; //only the player controlling this can request pickup
 
-        NetworkObject netObj = pickObj.GetComponent<NetworkObject>(); //get the network object of the pickObj
-        if (netObj == null) return;
-        PickupObjectServerRpc(netObj.NetworkObjectId, OwnerClientId); //ask server to pick it up with RPC
+        NetworkObject netObj = obj.GetComponent<NetworkObject>(); //get the network object of the obj
+        if (netObj == null)
+        {
+            return;//if null return and do nothing so no error
+        }
+        pickupObjectServerRpc(netObj.NetworkObjectId, OwnerClientId); //ask server to pick it up with RPC
+
+
+
+        ////obj.transform.localPosition = new Vector3(holdArea.transform.position.x, holdArea.transform.position.y, obj.transform.localPosition.z);
+        ////obj.transform.rotation = Quaternion.identity;//might need to chnage or remove
+        //if (obj.GetComponent<Rigidbody>())
+        //{
+        //    Debug.Log("picking up");
+        //    heldObjRB = obj.GetComponent<Rigidbody>();
+        //    heldObjRB.useGravity = false;//prevents object from falling
+        //    heldObjRB.linearDamping = 10;
+        //    heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;//prevents object from rotating
+
+        //    heldObjRB.isKinematic = true;//prevents object from moving when hitting other objects in the scene
+
+        //    heldObjRB.transform.parent = holdArea;//parent object to camera space so it can follow the camera
+
+        //    holdArea.transform.localScale = new Vector3(smallScale, smallScale, smallScale);//make heldObj and hold area smaller when held
+
+        //    heldObjRB.transform.position = holdArea.position;//move object to hold area positon
+
+        //    heldObj = obj;
+
+        //}
+
+
+
     }
 
-    public void dropObject()
+    [ServerRpc(RequireOwnership = false)]
+    public void pickupObjectServerRpc(ulong objectId, ulong playerClientId)
     {
+        //get objects's network object from servers list of spawned objects
+        NetworkObject netObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[objectId];
+
+        //give client ownership so that they can parent
+        netObj.ChangeOwnership(playerClientId); //give client ownership access
+
+        //parent object to player hold area
+        netObj.transform.SetParent(NetworkManager.Singleton.ConnectedClients[playerClientId].PlayerObject.transform);
+
+        assignHeldObjectClientRpc(netObj.NetworkObjectId);
+
+    }
+
+    [ClientRpc]
+    void assignHeldObjectClientRpc(ulong objectId)
+    {
+        NetworkObject netObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[objectId];
+        heldObj = netObj.gameObject;
+        heldObjRB = heldObj.GetComponent<Rigidbody>();//get rigid body
+
+        //place object in hold area
+        //heldObj.transform.position = holdArea.position;
+        //heldObj.transform.rotation = holdArea.rotation;
+
+        if (heldObjRB != null)
+        {
+            heldObjRB.useGravity = false; //turn gravity off so doesnt fall
+            //heldObjRB.linearDamping = 10;
+            heldObjRB.constraints = RigidbodyConstraints.FreezeRotation;//prevents object from rotating
+
+            heldObjRB.isKinematic = true;//prevents object from moving when hitting other objects in the scene
+
+            //heldObjRB.transform.parent = holdArea;//parent object to camera space so it can follow the camera
+
+            //holdArea.transform.localScale = new Vector3(smallScale, smallScale, smallScale);//make heldObj and hold area smaller when held
+
+            heldObjRB.transform.position = holdArea.position;//move object to hold area positon
+        }
+    }
+
+
+    //------------------ Dropping -------------------
+    public void dropObject(GameObject obj)
+    {
+        Debug.Log("Drop");
+
         if (!IsOwner) return;
         if (heldObj == null) return;
 
         NetworkObject netObj = heldObj.GetComponent<NetworkObject>(); //get network object of heldObj
+
+        //heldObjRB.useGravity = true;//let the item fall
+        //heldObjRB.constraints = RigidbodyConstraints.None;//prevents object rotation
+
+        heldObjRB.isKinematic = false;
+
+        //holdArea.transform.localScale = new Vector3(defaultScale, defaultScale, defaultScale); ;//bring hold area and heldObj back to original size for the next object
+
         if (netObj != null)
+        {
             DropObjectServerRpc(netObj.NetworkObjectId);
+        }
 
         //clear local reference
         heldObj = null;
         heldObjRB = null;
+
+        //heldObjRB.linearDamping = 1;
+        //heldObjRB.constraints = RigidbodyConstraints.None;//prevents object rotation
+
+        //heldObjRB.isKinematic = false;
+
+        //holdArea.transform.localScale = new Vector3(defaultScale, defaultScale, defaultScale); ;//bring hold area and heldObj back to original size for the next object
+        ////obj.transform.parent = null;
+
+        //heldObjRB.transform.parent = null;//unfreeze transformations and unparent
+
+
+        //heldObj = null;//hand is now empty
+
     }
 
-    public void moveObject()
-    {
-        if (heldObj == null) return;
-        //snap object instantly to hold area
-        heldObj.transform.position = holdArea.position;
-        heldObj.transform.rotation = holdArea.rotation;
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    void PickupObjectServerRpc(ulong objectId, ulong playerClientId)
-    {
-        //retrieve the object's network object from the server's record of spawned objects
-        NetworkObject netObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[objectId];
-
-        //transfer ownership so the client can interact with it
-        netObj.ChangeOwnership(playerClientId); //give client ownership access
-
-        //parent the object to the player's hold area
-        netObj.transform.SetParent(NetworkManager.Singleton.ConnectedClients[playerClientId].PlayerObject.transform);
-
-        AssignHeldObjectClientRpc(netObj.NetworkObjectId);
-    }
 
     [ServerRpc(RequireOwnership = false)]
     void DropObjectServerRpc(ulong objectId)
@@ -93,24 +172,9 @@ public class PickupScript : NetworkBehaviour
             rb.constraints = RigidbodyConstraints.None; //allow full movement
         }
         ClearHeldObjectClientRpc();
+
     }
 
-    [ClientRpc]
-    void AssignHeldObjectClientRpc(ulong objectId)
-    {
-        NetworkObject netObj = NetworkManager.Singleton.SpawnManager.SpawnedObjects[objectId];
-        heldObj = netObj.gameObject;
-        heldObjRB = heldObj.GetComponent<Rigidbody>();
-
-        //snap object instantly to hold area
-        heldObj.transform.position = holdArea.position;
-        heldObj.transform.rotation = holdArea.rotation;
-
-        if (heldObjRB != null)
-        {
-            heldObjRB.useGravity = false; //turn gravity off so it floats in the air
-        }
-    }
 
     [ClientRpc]
     void ClearHeldObjectClientRpc()
@@ -118,5 +182,35 @@ public class PickupScript : NetworkBehaviour
         //reset the held object from the client
         heldObj = null;
         heldObjRB = null;
+    }
+
+    public void throwObject()
+    {
+        heldObjRB.useGravity = true;//let the item fall
+        heldObjRB.linearDamping = 1;
+        heldObjRB.constraints = RigidbodyConstraints.None;// object can rotate again
+
+        heldObjRB.isKinematic = false;
+
+        //holdArea.transform.localScale = new Vector3(defaultScale, defaultScale, defaultScale); ;//bring hold area and heldObj back to original size for the next object
+
+        heldObjRB.transform.parent = null;//unfreeze transformations and unparent
+
+        heldObjRB.AddForce(transform.forward * throwForce);//throws object when dropped and unparented
+
+        heldObj = null;//hand is now empty
+
+
+    }
+
+    public void moveObject()
+    {
+        Debug.Log("Moving");
+
+        //Vector3 moveDirection = (holdArea.position - heldObj.transform.position);
+        //heldObjRB.AddForce(moveDirection * pickupForce);
+
+        heldObj.transform.position = holdArea.position;
+
     }
 }

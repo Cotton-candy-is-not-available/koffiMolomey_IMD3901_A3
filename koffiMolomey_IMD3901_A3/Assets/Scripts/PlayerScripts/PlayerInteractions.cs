@@ -19,7 +19,7 @@ public class PlayerInteractions : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;
 
@@ -41,7 +41,7 @@ public class PlayerInteractions : NetworkBehaviour
                     else if (pickup.heldObj != null)//if hand is not empty
                     {
                         //Drop object
-                        pickup.dropObject();//call drop function
+                        pickup.dropObject(hit.transform.gameObject);//call drop function
 
                     }
 
@@ -52,24 +52,24 @@ public class PlayerInteractions : NetworkBehaviour
 
 
                     if (pickup.heldObj != null)//if there is an object picked up
-                {
-                    //moveObject
-                    pickup.moveObject();//call move function
+                    {
+                        //moveObject
+                        pickup.moveObject();//call move function
 
-                   
+
+                    }
+
+
+                    return;
                 }
 
 
-                return;
             }
 
-
+            crosshair.setInteract(false);
         }
 
-        crosshair.setInteract(false);
     }
-
-
 
 
     }

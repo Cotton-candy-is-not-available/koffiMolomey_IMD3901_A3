@@ -1,4 +1,5 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,11 @@ public class basketCollision : MonoBehaviour
     public bool fabricBool = false;
     public bool trimBool = false;
     public bool threadBool = false;
+
+    //attempt to sync bools so that checklists could update on both sides
+    //public NetworkVariable<bool> fabricBool = new NetworkVariable<bool>();
+    //public NetworkVariable<bool> trimBool = new NetworkVariable<bool>();
+    //public NetworkVariable<bool> threadBool = new NetworkVariable<bool>();
 
     public String fabricName;
     public String trimName;
